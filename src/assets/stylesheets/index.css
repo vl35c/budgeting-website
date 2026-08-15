@@ -14,6 +14,19 @@
   --georgia: Georgia, "Palantino Linotype", "Book Antiqua", serif;
 }
 
+body.light-mode {
+  color-scheme: light;
+  --bg: #f8f0e7;
+  --bg-accent: #fde0cf;
+  --panel: rgba(255, 255, 255, 0.74);
+  --panel-border: rgba(83, 52, 35, 0.12);
+  --text: #231711;
+  --muted: #6b5649;
+  --primary: #c5542e;
+  --secondary: #c68a16;
+  --shadow: 0 26px 60px rgba(88, 54, 31, 0.18);
+}
+
 * {
   box-sizing: border-box;
 }
