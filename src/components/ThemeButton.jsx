@@ -6,7 +6,14 @@ export function bindThemeButton() {
   themeButton.addEventListener("click", function () {
     document.body.classList.toggle("light-mode");
     localStorage.setItem("theme", localStorage.getItem("theme") === "light-mode" ? "dark-mode" : "light-mode");
+    syncThemeButton();
   })
+}
+
+export function syncThemeButton() {
+  if (!themeButtonIcon) { return; }
+
+  themeButtonIcon.textContent = document.body.classList.contains("light-mode") ? "🌙" : "☀︎";
 }
 
 export function ThemeButton() {
