@@ -1,6 +1,5 @@
 import "../assets/stylesheets/style.css"
-import "../components/ThemeButton"
-import { ThemeButton } from "../components/ThemeButton"
+import { ThemeButton } from "./ThemeButton"
 
 export function Sidebar() {
   return (

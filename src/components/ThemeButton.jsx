@@ -1,6 +1,8 @@
 import "../assets/stylesheets/style.css";
 
 export function bindThemeButton() {
+  const themeButton = document.getElementById("themeButton");
+
   if (!themeButton) { return; }
 
   themeButton.addEventListener("click", function () {
@@ -11,6 +13,8 @@ export function bindThemeButton() {
 }
 
 export function syncThemeButton() {
+  const themeButtonIcon = document.getElementById("themeButtonIcon");
+
   if (!themeButtonIcon) { return; }
 
   themeButtonIcon.textContent = document.body.classList.contains("light-mode") ? "🌙" : "☀︎";

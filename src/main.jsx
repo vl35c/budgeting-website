@@ -1,6 +1,7 @@
 import { render } from 'preact'
-import { App } from './app.jsx'
+import { Suspense, lazy } from "preact/compat"
 
+import { App } from "./app.jsx"
 import { bindThemeButton, syncThemeButton } from "./components/ThemeButton.jsx"
 
 function syncTheme() {
@@ -12,7 +13,9 @@ function syncTheme() {
   syncThemeButton();
 }
 
-render(<App />, document.getElementById('app'))
+render(
+  <App />, document.getElementById('app')
+)
 
 bindThemeButton();
 syncTheme();
