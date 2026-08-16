@@ -1,4 +1,4 @@
-import "../assets/stylesheets/index.css"
+import "../assets/stylesheets/style.css"
 import "../components/ThemeButton"
 import { ThemeButton } from "../components/ThemeButton"
 

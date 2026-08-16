@@ -1,4 +1,4 @@
-import "../assets/stylesheets/index.css";
+import "../assets/stylesheets/style.css";
 
 export function bindThemeButton() {
   if (!themeButton) { return; }
