@@ -18,4 +18,5 @@ class SavingsAccount:
       "name": self.name,
       "current_amount": formatGBP(self.current_amount),
       "interest_rate": f"{self.interest_rate}%",
+      "interest_rate_numerical": self.interest_rate,
     }

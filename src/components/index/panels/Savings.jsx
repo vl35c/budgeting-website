@@ -3,6 +3,16 @@ import { useState, useEffect } from "react";
 import "../../../assets/stylesheets/style.css"
 import "../../../assets/stylesheets/index.css"
 
+function getInterestRateBand(rate) {
+  if (rate < 4) {
+    return "interest-band-low";
+  } else if (rate >= 4 && rate < 8) {
+    return "interest-band-medium";
+  } else {
+    return "interest-band-high";
+  }
+}
+
 export function SavingsPanel() {
   const [data, setData] = useState(null);
   
@@ -23,7 +33,12 @@ export function SavingsPanel() {
       {data.savings.map(acc => 
         <ul class="detail-list">
           <li>
-            <span>{acc.name}</span>
+            <span>
+              {acc.name}
+              <span class={[getInterestRateBand(acc.interest_rate_numerical), "savings-interest", "numerical"].join(" ")}>
+                {acc.interest_rate}
+              </span>
+            </span>
             <strong class="numerical">{acc.current_amount}</strong>
           </li>
         </ul>
