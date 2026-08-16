@@ -2,27 +2,10 @@ import json
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-
-TEMP_SPOTLIGHT_DATA = {
-  "info": {
-    "label": "backend connects",
-    "value": "I connected the backend",
-    "detail": "It took too long",
-    "accent": "#ff7a59",
-  },
-  "savings": {
-    "label": "total savings",
-    "value": "£7500",
-    "detail": "Between 3 Accounts",
-    "accent": "#ffb347",
-  },
-  "buffer": {
-    "label": "income buffer",
-    "value": "3.5 months",
-    "detail": "Equivalent of income for period",
-    "accent": "#7ad3ff",
-  },
-}
+from budget import Budget
+from expense import Expense, Frequency
+from savings import SavingsAccount
+from util import formatGBP
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -49,4 +32,37 @@ class Handler(BaseHTTPRequestHandler):
 
 server = HTTPServer(("127.0.0.1", 5174), Handler)
 print("Serving backend")
+
+budget = Budget(
+  income=2500.00,
+  savings_accounts=[
+    SavingsAccount(name="Chase", current_amount=5000.00, interest_rate=3),
+  ],
+  expenses=[
+    Expense(name="Rent", amount=700.00, frequency=Frequency.MONTHLY),
+    Expense(name="Car", amount=300.00, frequency=Frequency.MONTHLY),
+    Expense(name="Insurance", amount=70.00, frequency=Frequency.MONTHLY),
+    Expense(name="Shopping", amount=100.00, frequency=Frequency.WEEKLY),
+    Expense(name="Lunch", amount=5.00, frequency=Frequency.WEEKDAY),
+  ]
+)
+
+TEMP_SPOTLIGHT_DATA = {
+  "savings": {
+    "label": "total savings",
+    "value": formatGBP(budget.get_total_savings()),
+    "detail": "Between 3 Accounts",
+  },
+  "buffer": {
+    "label": "income buffer",
+    "value": f"{budget.get_income_buffer()} months",
+    "detail": "Equivalent of income for period",
+  },
+  "income": {
+    "label": "monthly income",
+    "value": formatGBP(budget.income),
+    "detail": "",
+  },
+}
+
 server.serve_forever();

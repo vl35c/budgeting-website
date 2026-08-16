@@ -11,7 +11,7 @@ export function App() {
       <Sidebar />
       <section class="page-content">
         <section class="grid">
-          <Spotlight spotlight_id="info" />
+          <Spotlight spotlight_id="income" />
           <Spotlight spotlight_id="savings" />
           <Spotlight spotlight_id="buffer" />
         </section>

@@ -15,10 +15,8 @@ export function Spotlight({ spotlight_id }) {
     })()
   }, []);
 
-  const accentColor = "--accent:" + (data ? data.accent : "#111111");
-
   return (
-    <article class="card" style={accentColor}>
+    <article class="card">
       <p class="eyebrow">{data ? data.label : "Loading..."}</p>
       <h3 class="numerical">{data ? data.value : ""}</h3>
       <p class="detail">{data ? data.detail : ""}</p>
