@@ -2,8 +2,9 @@ import './assets/stylesheets/index.css'
 import './assets/stylesheets/style.css'
 
 import "./components/Sidebar"
+import { SavingsPanel } from './components/index/panels/Savings'
 import { Sidebar } from './components/Sidebar'
-import { Spotlight } from "./components/Spotlight"
+import { Spotlight } from "./components/index/Spotlight"
 
 export function App() {
   return (
@@ -14,6 +15,9 @@ export function App() {
           <Spotlight spotlight_id="income" />
           <Spotlight spotlight_id="savings" />
           <Spotlight spotlight_id="buffer" />
+        </section>
+        <section class="panel-grid">
+          <SavingsPanel />
         </section>
       </section>
     </section>

@@ -17,9 +17,19 @@ class Budget:
     self.savings_accounts = savings_accounts
     self.expenses = expenses
 
+  def savings_to_web_payload(self):
+    """Returns savings accounts as a JSON web payload"""
+    return {
+      "savings": [acc.to_web_payload() for acc in self.savings_accounts]
+    }
+
   def get_total_savings(self) -> float:
     """Sums total of all savings accounts"""
     return sum([acc.current_amount for acc in self.savings_accounts])
+
+  def get_amount_of_savings_accounts(self) -> int:
+    """Returns the amount of savings account a user has"""
+    return len(self.savings_accounts)
 
   def get_total_expenses(self) -> float:
     """Sums total of all expenses per month"""

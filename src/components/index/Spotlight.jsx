@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import "../assets/stylesheets/style.css"
-import "../assets/stylesheets/index.css"
+import "../../assets/stylesheets/style.css"
+import "../../assets/stylesheets/index.css"
 
 export function Spotlight({ spotlight_id }) {
   const [data, setData] = useState(null);
