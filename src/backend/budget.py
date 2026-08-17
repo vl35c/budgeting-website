@@ -17,10 +17,17 @@ class Budget:
     self.savings_accounts = savings_accounts
     self.expenses = expenses
 
-  def savings_to_web_payload(self):
-    """Returns savings accounts as a JSON web payload"""
+  def savings_to_web_payload(self, attr: str="current_amount", reverse: bool=True) -> dict:
+    """
+    Returns savings accounts as a JSON web payload
+    attr: str - attribute of which to sort by - default is savings amount
+    reverse: bool - whether to reverse the sort - generally true for numbers, false for strings
+    """
+    if attr and not hasattr(SavingsAccount(), attr):
+      raise Exception(f"SavingsAccount does not contain attribute {attr}")
+
     return {
-      "savings": [acc.to_web_payload() for acc in self.savings_accounts]
+      "savings": [acc.to_web_payload() for acc in sorted(self.savings_accounts, key=lambda acc: getattr(acc, attr), reverse=reverse)]
     }
 
   def get_total_savings(self) -> float:

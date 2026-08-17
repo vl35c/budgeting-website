@@ -50,7 +50,8 @@ budget = Budget(
   income=2500.00,
   savings_accounts=[
     SavingsAccount(name="Chase", current_amount=5000.00, interest_rate=3),
-    SavingsAccount(name="Emergency", current_amount=2500.00, interest_rate=1.5)
+    SavingsAccount(name="Emergency", current_amount=2500.00, interest_rate=1.5),
+    SavingsAccount(name="House", current_amount=20_000.00, interest_rate=4.5),
   ],
   expenses=[
     Expense(name="Rent", amount=700.00, frequency=Frequency.MONTHLY),
