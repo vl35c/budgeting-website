@@ -22,11 +22,19 @@ class Handler(BaseHTTPRequestHandler):
   def __do_GET_budget(self, path: str) -> None:
     """Handle endpoint calls relating to budget"""
     if path == "/savings-accounts":
-      self.respond_json(budget.savings_to_web_payload())
+      self.respond_json(budget.savings_to_web_payload(attr=self.args["attr"]))
       return
 
   def do_GET(self) -> None:
     """Handle endpoint calls"""
+    self.args = None  # ensure always defined on GET, and reset on every call
+
+    # if url in form abc/xyz?arg=value
+    # remove args and parse url, keep args for later use
+    if len(items := self.path.split("?")) == 2:
+      self.path, self.args = items
+      self.parse_args()
+
     if self.path.startswith("/budget"):
       self.__do_GET_budget(self.path.removeprefix("/budget"))
       return
@@ -41,6 +49,18 @@ class Handler(BaseHTTPRequestHandler):
       self.respond_json(TEMP_SPOTLIGHT_DATA[spotlight])
       return
 
+  def parse_args(self) -> None:
+    """Takes args from format a=b,c=d -> {a: "b", c: "d"}"""
+    arg_map = {}
+    args = self.args.split(",")
+
+    for arg in args:
+      key, value = arg.split("=")
+      arg_map[key] = value
+
+    self.args = arg_map
+    print(self.args)
+    
 
 
 server = HTTPServer(("127.0.0.1", 5174), Handler)
@@ -49,9 +69,10 @@ print("Serving backend")
 budget = Budget(
   income=2500.00,
   savings_accounts=[
-    SavingsAccount(name="Chase", current_amount=5000.00, interest_rate=3),
-    SavingsAccount(name="Emergency", current_amount=2500.00, interest_rate=1.5),
+    SavingsAccount(name="Chase", current_amount=5_000.00, interest_rate=3),
+    SavingsAccount(name="Emergency", current_amount=2_500.00, interest_rate=1.5),
     SavingsAccount(name="House", current_amount=20_000.00, interest_rate=4.5),
+    SavingsAccount(name="ISA", current_amount=12_000, interest_rate=5.5),
   ],
   expenses=[
     Expense(name="Rent", amount=700.00, frequency=Frequency.MONTHLY),

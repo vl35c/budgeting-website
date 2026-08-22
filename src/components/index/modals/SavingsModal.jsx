@@ -1,21 +1,32 @@
 import "../../../assets/stylesheets/style.css"
 import "../../../assets/stylesheets/index.css"
 
+import { bindThemeButton } from "../../ThemeButton";
+
 export function SavingsModal({ onClose }) {
+  function handle(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const filter = formData.get("savings-sort");
+    localStorage.setItem("savingsModalSortFilter", filter);
+
+    onClose();
+  }
+
   return (
-    <div class="bg-transparent">
+    <div class="bg-transparent" id="test">
       <article class="savings-modal modal">
         <div class="modal-header">
           <h2 class="modal-title">Reorder Savings Accounts</h2>
           <button class="close-button" onclick={onClose}> x </button>
         </div>
-        <form>
+        <form id="savings-form" onSubmit={handle} method="POST">
           <label class="form-field">
             <span>Order by:</span>
-            <select>
+            <select name="savings-sort">
               <option value="name">Name</option>
-              <option value="amount">Amount</option>
-              <option value="interest-rate">Interest Rate</option>
+              <option value="current_amount">Amount</option>
+              <option value="interest_rate">Interest Rate</option>
             </select>
           </label>
           <label class="form-submit">

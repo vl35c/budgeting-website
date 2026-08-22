@@ -18,12 +18,13 @@ export function SavingsPanel({ onSettingsClick }) {
   
   useEffect(() => {
     (async () => {
-      const result = await fetch(`/api/budget/savings-accounts`)
+      let sortFilter = localStorage.getItem("savingsModalSortFilter");
+      const result = await fetch(`/api/budget/savings-accounts?attr=${sortFilter}`)
         .then((res) => res.json())
         .catch((err) => console.log(err))
       setData(result);
     })()
-  }, []);
+  }, [localStorage.getItem("savingsModalSortFilter")]);
 
   if (!data) { return <div>Loading...</div> }
 

@@ -13,7 +13,11 @@ function syncTheme() {
   syncThemeButton();
 }
 
+function bind() {
+  bindThemeButton();
+}
+
 render(<App />, document.getElementById('app'))
 
-bindThemeButton();
-syncTheme();
+bind()
+syncTheme()
