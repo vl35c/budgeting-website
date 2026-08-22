@@ -172,6 +172,7 @@ main {
   font-family: var(--font-numeric);
   font-weight: 600;
   font-size: 1rem;
+  margin-bottom: 4px;
 }
 
 .form-field select {
@@ -182,6 +183,15 @@ main {
   padding: 12px 14px;
   font-family: var(--font-numeric);
   outline: none;
+}
+
+.form-field input[type="checkbox"] {
+  margin-top: 6px;
+}
+
+.form-checkbox {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .form-submit {

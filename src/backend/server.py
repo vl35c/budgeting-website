@@ -22,7 +22,10 @@ class Handler(BaseHTTPRequestHandler):
   def __do_GET_budget(self, path: str) -> None:
     """Handle endpoint calls relating to budget"""
     if path == "/savings-accounts":
-      self.respond_json(budget.savings_to_web_payload(attr=self.args["attr"]))
+      self.respond_json(budget.savings_to_web_payload(
+        attr=self.args["attr"], 
+        reverse=(True if self.args["reverse"] == "on" else False)  # checkbox passes 'on' or 'null'
+      ))
       return
 
   def do_GET(self) -> None:

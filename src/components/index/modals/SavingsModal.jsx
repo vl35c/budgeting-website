@@ -8,7 +8,10 @@ export function SavingsModal({ onClose }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const filter = formData.get("savings-sort");
+    const reverse = formData.get("savings-reverse");
+
     localStorage.setItem("savingsModalSortFilter", filter);
+    localStorage.setItem("savingsModalReverseFilter", reverse);
 
     onClose();
   }
@@ -28,6 +31,10 @@ export function SavingsModal({ onClose }) {
               <option value="current_amount">Amount</option>
               <option value="interest_rate">Interest Rate</option>
             </select>
+          </label>
+          <label class="form-field form-checkbox">
+            <span>Reverse:</span>
+            <input type="checkbox" name="savings-reverse" />
           </label>
           <label class="form-submit">
             <input type="submit" value="Reorder" class="submit-button" />

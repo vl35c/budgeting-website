@@ -18,13 +18,18 @@ export function SavingsPanel({ onSettingsClick }) {
   
   useEffect(() => {
     (async () => {
-      let sortFilter = localStorage.getItem("savingsModalSortFilter");
-      const result = await fetch(`/api/budget/savings-accounts?attr=${sortFilter}`)
+      let sortFilter = localStorage.getItem("savingsModalSortFilter") || "current_amount";
+      let reverseFilter = localStorage.getItem("savingsModalReverseFilter") || "true";
+
+      const result = await fetch(`/api/budget/savings-accounts?attr=${sortFilter},reverse=${reverseFilter}`)
         .then((res) => res.json())
         .catch((err) => console.log(err))
       setData(result);
     })()
-  }, [localStorage.getItem("savingsModalSortFilter")]);
+  }, [
+    localStorage.getItem("savingsModalSortFilter"),
+    localStorage.getItem("savingsModalReverseFilter"),
+  ]);
 
   if (!data) { return <div>Loading...</div> }
 
