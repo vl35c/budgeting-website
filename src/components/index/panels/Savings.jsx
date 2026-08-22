@@ -13,7 +13,7 @@ function getInterestRateBand(rate) {
   }
 }
 
-export function SavingsPanel() {
+export function SavingsPanel({ onSettingsClick }) {
   const [data, setData] = useState(null);
   
   useEffect(() => {
@@ -29,7 +29,10 @@ export function SavingsPanel() {
 
   return (
     <article class="detail-panel">
-      <p class="eyebrow">Savings Accounts</p>
+      <p class="eyebrow">
+        Savings Accounts
+        <button onclick={onSettingsClick} class="eyebrow-button pos-top-right" style="--pad: 12px;">⚙️</button>
+      </p>
       {data.savings.map(acc => 
         <ul class="detail-list">
           <li>

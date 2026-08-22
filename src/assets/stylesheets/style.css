@@ -11,6 +11,11 @@
   --secondary: #ffd166;
   --shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
 
+  --brown: rgba(255, 122, 89, 0.16);
+  --brown-border: rgba(255, 122, 89, 0.45);
+  --brown-hover: rgba(255, 122, 89, 0.2);
+  --brown-border-hover: rgba(255, 122, 89, 0.42);
+
   --font: Georgia, "Palantino Linotype", "Book Antiqua", serif;
   --font-numeric: "Aptos", "Segoe UI", "Helvetica Neue", sans-serif;
 }
@@ -95,8 +100,8 @@ main {
 }
 
 .sidebar-button.active {
-  border-color: rgba(255, 122, 89, 0.45);
-  background: rgba(255, 122, 89, 0.16);
+  border-color: var(--brown-border);
+  background: var(--brown);
 }
 
 .theme-toggle {
@@ -124,4 +129,79 @@ main {
   min-width: 0;
   margin-left: var(--sidebar-width);
   padding: 20px;
+}
+
+/* Global utils */
+.pos-top-right {
+  position: absolute;
+  top: var(--pad, 0);
+  right: var(--pad, 0);
+}
+
+.close-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal {
+  width: min(100%, 520px);
+  display: grid;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.modal-title {
+  margin: 0;
+  line-height: 1.2;
+  font-size: 1.5rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 4px;
+  color: var(--text);
+  font-family: var(--font-numeric);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.form-field select {
+  width: 100%;
+  border: 1px solid var(--brown-border);
+  border-radius: 12px;
+  color: var(--text);
+  padding: 12px 14px;
+  font-family: var(--font-numeric);
+  outline: none;
+}
+
+.form-submit {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
+.submit-button {
+  border: 1px solid var(--brown-border);
+  background: var(--brown);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-family: var(--font-numeric);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 140ms ease
+}
+
+.submit-button:hover {
+  background: var(--brown-hover);
+  border-color: var(--brown-border-hover);
 }
