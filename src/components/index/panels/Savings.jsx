@@ -4,9 +4,9 @@ import "../../../assets/stylesheets/style.css"
 import "../../../assets/stylesheets/index.css"
 
 function getInterestRateBand(rate) {
-  if (rate < 4) {
+  if (rate < 2) {
     return "interest-band-low";
-  } else if (rate >= 4 && rate < 8) {
+  } else if (rate >= 2 && rate < 4) {
     return "interest-band-medium";
   } else {
     return "interest-band-high";

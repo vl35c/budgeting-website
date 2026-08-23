@@ -22,9 +22,10 @@ class Handler(BaseHTTPRequestHandler):
   def __do_GET_budget(self, path: str) -> None:
     """Handle endpoint calls relating to budget"""
     if path == "/savings-accounts":
+      # request with fallback values
       self.respond_json(budget.savings_to_web_payload(
-        attr=self.args["attr"], 
-        reverse=(True if self.args["reverse"] == "on" else False)  # checkbox passes 'on' or 'null'
+        attr=self.args["attr"] or "current_amount",
+        reverse=(True if (self.args["reverse"] or "on") == "on" else False)  # checkbox passes 'on' or 'null'
       ))
       return
 
@@ -96,6 +97,7 @@ TEMP_SPOTLIGHT_DATA = {
     "label": "income buffer",
     "value": f"{budget.get_income_buffer()} months",
     "detail": "Equivalent of income for period",
+    "modal": "IncomeBufferModal",
   },
   "income": {
     "label": "monthly income",
