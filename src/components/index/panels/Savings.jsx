@@ -23,7 +23,7 @@ export function SavingsPanel({ onSettingsClick }) {
 
       const result = await fetch(`/api/budget/savings-accounts?attr=${sortFilter},reverse=${reverseFilter}`)
         .then((res) => res.json())
-        .catch((err) => console.log(err))
+        .catch((err) => console.error(err))
       setData(result);
     })()
   }, [

@@ -1,7 +1,6 @@
 import "../../../assets/stylesheets/style.css"
 import "../../../assets/stylesheets/index.css"
 
-import { bindThemeButton } from "../../ThemeButton";
 import { createPortal } from "preact/compat";
 
 export function SavingsModal({ onClose }) {
@@ -26,7 +25,7 @@ export function SavingsModal({ onClose }) {
             <h2 class="modal-title">Reorder Savings Accounts</h2>
             <button class="close-button" onclick={onClose}> x </button>
           </div>
-          <form id="savings-form" onSubmit={handle} method="POST">
+          <form onSubmit={handle} method="POST">
             <label class="form-field">
               <span>Order by:</span>
               <select name="savings-sort">

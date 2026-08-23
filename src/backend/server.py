@@ -5,15 +5,24 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from budget import Budget
 from expense import Expense, Frequency
 from savings import SavingsAccount
+from user_settings import UserSettings
 from util import formatGBP, formatPlural
 
 
 class Handler(BaseHTTPRequestHandler):
-  def respond_json(self, json_obj) -> None:
+  def respond_json(self, *json_objs) -> None:
+    """Collates all objects passed in into 1 payload and sends"""
+    json_obj = {}
+    for obj in json_objs:
+      json_obj.update(obj)
+
     self.send_response(200)
-    self.send_header("Content-Type", "application/json; charset=utf-8")
+    self.send_header("Content-Type", "application/json; charset=utf-8") 
     self.end_headers()
     self.wfile.write(json.dumps(json_obj).encode("utf-8"))
+
+  def respond_200(self) -> None:
+    self.send_response(200)
 
   def respond_502(self) -> None:
     """502 Bad Gateway"""
@@ -22,11 +31,23 @@ class Handler(BaseHTTPRequestHandler):
   def __do_GET_budget(self, path: str) -> None:
     """Handle endpoint calls relating to budget"""
     if path == "/savings-accounts":
-      # request with fallback values
       self.respond_json(budget.savings_to_web_payload(
-        attr=self.args["attr"] or "current_amount",
-        reverse=(True if (self.args["reverse"] or "on") == "on" else False)  # checkbox passes 'on' or 'null'
+        attr=self.args["attr"],
+        reverse=(True if (self.args["reverse"]) == "on" else False)  # checkbox passes 'on' or 'null'
       ))
+      return
+
+    if path == "/buffer-accounts":
+      self.respond_json(
+        budget.savings_to_web_payload(attr="name", reverse=False),
+        budget.savings_buffer_to_web_payload()
+      )
+      return
+
+    if path == "/update-buffer-accounts":
+      accounts = self.args["accounts"].split(';')[:-1]  # remove last as alway have trailing ;
+      budget.update_savings_accounts_for_buffer(accounts)
+      self.respond_200()
       return
 
   def do_GET(self) -> None:
@@ -84,8 +105,11 @@ budget = Budget(
     Expense(name="Insurance", amount=70.00, frequency=Frequency.MONTHLY),
     Expense(name="Shopping", amount=100.00, frequency=Frequency.WEEKLY),
     Expense(name="Lunch", amount=5.00, frequency=Frequency.WEEKDAY),
-  ]
+  ],
+  user_settings=UserSettings(),
 )
+
+budget.init_user_settings()
 
 TEMP_SPOTLIGHT_DATA = {
   "savings": {
