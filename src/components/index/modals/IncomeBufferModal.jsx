@@ -29,6 +29,9 @@ export function IncomeBufferModal({ onClose }) {
 
     fetch(`api/budget/update-buffer-accounts?accounts=${payload}`);
     onClose();
+
+    localStorage.setItem("flag", parseInt(localStorage.getItem("flag")) + 1);
+    console.log(localStorage.getItem("flag"))
   }
 
   useEffect(() => {

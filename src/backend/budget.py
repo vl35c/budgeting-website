@@ -61,7 +61,7 @@ class Budget:
 
   def get_total_savings(self, accs: list[SavingsAccount]=None) -> float:
     """Sums total of all savings accounts"""
-    if accs:
+    if accs is not None:
       return sum([acc.current_amount for acc in accs])
     return sum([acc.current_amount for acc in self.savings_accounts])
 

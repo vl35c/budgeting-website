@@ -5,6 +5,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from budget import Budget
 from expense import Expense, Frequency
 from savings import SavingsAccount
+from templates.spotlight import SpotlightData
 from user_settings import UserSettings
 from util import formatGBP, formatPlural
 
@@ -20,9 +21,6 @@ class Handler(BaseHTTPRequestHandler):
     self.send_header("Content-Type", "application/json; charset=utf-8") 
     self.end_headers()
     self.wfile.write(json.dumps(json_obj).encode("utf-8"))
-
-  def respond_200(self) -> None:
-    self.send_response(200)
 
   def respond_502(self) -> None:
     """502 Bad Gateway"""
@@ -47,7 +45,7 @@ class Handler(BaseHTTPRequestHandler):
     if path == "/update-buffer-accounts":
       accounts = self.args["accounts"].split(';')[:-1]  # remove last as alway have trailing ;
       budget.update_savings_accounts_for_buffer(accounts)
-      self.respond_200()
+      self.respond_json()  # blank json to not return 502
       return
 
   def do_GET(self) -> None:
@@ -67,11 +65,11 @@ class Handler(BaseHTTPRequestHandler):
     if self.path.startswith("/spotlight/"):
       spotlight = self.path.removeprefix("/spotlight/")
 
-      if spotlight not in TEMP_SPOTLIGHT_DATA:
+      if not spotlight_data.check_data(spotlight):
         self.respond_502()
         return
 
-      self.respond_json(TEMP_SPOTLIGHT_DATA[spotlight])
+      self.respond_json(spotlight_data.get_data(spotlight))
       return
 
   def parse_args(self) -> None:
@@ -85,7 +83,6 @@ class Handler(BaseHTTPRequestHandler):
 
     self.args = arg_map
     print(self.args)
-    
 
 
 server = HTTPServer(("127.0.0.1", 5174), Handler)
@@ -111,23 +108,6 @@ budget = Budget(
 
 budget.init_user_settings()
 
-TEMP_SPOTLIGHT_DATA = {
-  "savings": {
-    "label": "total savings",
-    "value": formatGBP(budget.get_total_savings()),
-    "detail": f"In {formatPlural(budget.get_amount_of_savings_accounts(), 'account', 'accounts')}",
-  },
-  "buffer": {
-    "label": "income buffer",
-    "value": f"{budget.get_income_buffer()} months",
-    "detail": "Equivalent of income for period",
-    "modal": "IncomeBufferModal",
-  },
-  "income": {
-    "label": "monthly income",
-    "value": formatGBP(budget.income),
-    "detail": "",
-  },
-}
+spotlight_data = SpotlightData(budget=budget)
 
 server.serve_forever();
