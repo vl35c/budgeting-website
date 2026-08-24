@@ -80,6 +80,22 @@ class Budget:
     """Sums total of all expenses per month"""
     return sum([expense.monthly_amount for expense in self.expenses])
 
+  def expenses_to_web_payload(self, limit: int=0) -> dict:
+    """
+    Returns expenses as web payload
+    limit: int - amount of expenses to return (0 is all)
+    """
+    expenses = [expense.to_web_payload() for expense in sorted(
+      self.expenses,
+      key=lambda e: e.monthly_amount,
+      reverse=True
+    )]
+
+    if limit == 0:
+      # limit of 0 means all
+      return { "expenses": expenses }
+    return { "expenses": expenses[:limit] }
+
   def get_income_buffer(self) -> float:
     """Gets amount of months current savings would cover based on expenses"""
     return round(self.get_total_savings(self.user_settings.savings_accounts_for_buffer) / self.get_total_expenses(), 1)

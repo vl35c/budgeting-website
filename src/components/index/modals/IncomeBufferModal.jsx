@@ -31,7 +31,6 @@ export function IncomeBufferModal({ onClose }) {
     onClose();
 
     localStorage.setItem("flag", parseInt(localStorage.getItem("flag")) + 1);
-    console.log(localStorage.getItem("flag"))
   }
 
   useEffect(() => {

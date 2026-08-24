@@ -23,7 +23,6 @@ export function Spotlight({ spotlight_id }) {
         .then((res) => res.json())
         .catch((err) => console.log(err))
       setData(result);
-      console.log(result)
     })()
   }, [localStorage.getItem("flag")]);
 

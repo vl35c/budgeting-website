@@ -48,6 +48,15 @@ class Handler(BaseHTTPRequestHandler):
       self.respond_json()  # blank json to not return 502
       return
 
+    if path == "/expenses":
+      limit = int(self.args["limit"])
+      self.respond_json(
+        budget.expenses_to_web_payload(
+          limit=limit
+        )
+      )
+      return
+
   def do_GET(self) -> None:
     """Handle endpoint calls"""
     self.args = None  # ensure always defined on GET, and reset on every call

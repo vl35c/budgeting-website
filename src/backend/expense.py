@@ -1,5 +1,7 @@
 from enum import Enum
 
+from util import formatGBP
+
 
 class Frequency(Enum):
   MONTHLY = 1
@@ -24,3 +26,12 @@ class Expense:
       return self.amount * 22  # average weekdays in a month
     if self.frequency == Frequency.DAILY:
       return self.amount * 30  # average days in a month
+
+  def to_web_payload(self) -> dict:
+    """Returns object as json payload"""
+    return {
+      "name": self.name,
+      "amount": formatGBP(self.amount),
+      "monthly_amount": formatGBP(self.monthly_amount),
+      "frequency": self.frequency.__str__(),
+    }

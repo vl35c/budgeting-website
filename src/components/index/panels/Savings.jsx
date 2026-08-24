@@ -39,8 +39,8 @@ export function SavingsPanel({ onSettingsClick }) {
         Savings Accounts
         <button onclick={onSettingsClick} class="eyebrow-button pos-top-right" style="--pad: 12px;">⚙️</button>
       </p>
-      {data.savings.map(acc => 
-        <ul class="detail-list">
+      <ul class="detail-list">
+        {data.savings.map(acc => 
           <li>
             <span>
               {acc.name}
@@ -50,8 +50,8 @@ export function SavingsPanel({ onSettingsClick }) {
             </span>
             <strong class="numerical">{acc.current_amount}</strong>
           </li>
-        </ul>
-      )}
+        )}
+      </ul>
     </article>
   )
 }
