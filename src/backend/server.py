@@ -1,4 +1,5 @@
 import json
+import os
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -6,6 +7,8 @@ from budget import Budget
 from expense import Expense, Frequency
 from savings import SavingsAccount
 from templates.spotlight import SpotlightData
+from tools.conversion import Conversion
+from tools.env_manager import EnvManager
 from user_settings import UserSettings
 from util import formatGBP, formatPlural
 
@@ -95,10 +98,12 @@ class Handler(BaseHTTPRequestHandler):
 
 
 server = HTTPServer(("127.0.0.1", 5174), Handler)
+conversion = Conversion()
+
 print("Serving backend")
 
 budget = Budget(
-  income=2500.00,
+  income=2500.00 * rate,
   savings_accounts=[
     SavingsAccount(name="Chase", current_amount=5_000.00, interest_rate=3),
     SavingsAccount(name="Emergency", current_amount=2_500.00, interest_rate=1.5),
