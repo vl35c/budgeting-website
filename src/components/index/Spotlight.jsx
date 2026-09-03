@@ -13,18 +13,27 @@ export function Spotlight({ spotlight_id }) {
   const [data, setData] = useState(null);
   const [modal, setModal] = useState(null);
   const [open, setOpen] = useState(false);
+  const [localUpdate, setLocalUpdate] = useState(0);
 
   const openModal = () => { setOpen(true); }
   const closeModal = () => { setOpen(false); }
-  
-  useEffect(() => {
-    (async () => {
-      const result = await fetch(`/api/spotlight/${spotlight_id}`)
-        .then((res) => res.json())
-        .catch((err) => console.log(err))
-      setData(result);
-    })()
-  }, [localStorage.getItem("flag")]);
+
+  useEffect(async () => {
+    const element = document.getElementById("currency-select");
+    element.addEventListener("change", () => {
+      setLocalUpdate(localUpdate + 1);      
+    })
+  }, [])
+
+  useEffect(async () => {
+    const result = await fetch(`/api/spotlight/${spotlight_id}`)
+      .then((res) => res.json())
+      .catch((err) => console.log(err))
+    setData(result);
+  }, [
+      localStorage.getItem("flag"),
+      localUpdate,
+      ]);
 
   if (data && !modal) { 
     if (Object.hasOwn(data, "modal")) {

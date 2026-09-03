@@ -1,4 +1,5 @@
 import "../assets/stylesheets/style.css"
+import { CurrencyButton } from "./CurrencyButton.jsx"
 import { ThemeButton } from "./ThemeButton"
 
 export function Sidebar() {
@@ -10,6 +11,7 @@ export function Sidebar() {
         <a class="sidebar-button" href="">Income and Expense</a>
         <a class="sidebar-button" href="">Goal Setting</a>
       </nav>
+      <CurrencyButton />
     </aside>
   )
 }

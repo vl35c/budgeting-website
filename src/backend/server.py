@@ -59,6 +59,19 @@ class Handler(BaseHTTPRequestHandler):
         )
       )
       return
+  
+  def __do_GET_ccy(self, path: str) -> None:
+    """Handle endpoint calls relating to currencies"""
+    if path == "/get_all_currencies":
+      self.respond_json(
+        conversion.to_web_payload()
+      )
+      return
+    if path == "/set_currency":
+      currency = self.args["ccy"]
+      budget.currency = conversion.get_currency(currency)
+      self.respond_json()
+      return
 
   def do_GET(self) -> None:
     """Handle endpoint calls"""
@@ -72,6 +85,10 @@ class Handler(BaseHTTPRequestHandler):
 
     if self.path.startswith("/budget"):
       self.__do_GET_budget(self.path.removeprefix("/budget"))
+      return
+
+    if self.path.startswith("/ccy"):
+      self.__do_GET_ccy(self.path.removeprefix("/ccy"))
       return
 
     if self.path.startswith("/spotlight/"):
@@ -91,10 +108,10 @@ class Handler(BaseHTTPRequestHandler):
 
     for arg in args:
       key, value = arg.split("=")
-      arg_map[key] = value
+      arg_map[key] = value.strip()
 
     self.args = arg_map
-    print(self.args)
+    print("req args:", self.args)
 
 
 server = HTTPServer(("127.0.0.1", 5174), Handler)
@@ -103,7 +120,7 @@ conversion = Conversion()
 print("Serving backend")
 
 budget = Budget(
-  income=2500.00 * rate,
+  income=2500.00,
   savings_accounts=[
     SavingsAccount(name="Chase", current_amount=5_000.00, interest_rate=3),
     SavingsAccount(name="Emergency", current_amount=2_500.00, interest_rate=1.5),

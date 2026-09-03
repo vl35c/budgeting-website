@@ -15,10 +15,23 @@ class Budget:
     income: float - monthly income
     savings_accounts - list of savings accounts user has
     """
-    self.income = income
+    self.__income = income
     self.savings_accounts = savings_accounts
     self.expenses = expenses
     self.user_settings = user_settings
+    # if changes, values stay the same, but get returned converted
+    self.currency = {
+      "code": "GBP",
+      "value": 1,
+    }
+
+  @property
+  def income(self) -> float:
+    return self.__income * self.currency["value"]
+
+  @income.setter
+  def income(self, income: float) -> None:
+    self.__income = income
 
   def init_user_settings(self) -> None:
     """Set up all user settings for use"""
